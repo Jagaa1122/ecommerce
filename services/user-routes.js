@@ -1,7 +1,7 @@
 const { users } = require("../db/user-data");
 
 const createUser = (req, res) => {
-  //namegit
+  //name
   //email
   //password
   //role
@@ -19,20 +19,30 @@ const createUser = (req, res) => {
 
 const loginUser = (req, res) => {
   const { name, password } = req.body;
+  
+  // Check if user exists
   const user = users.find((user) => user.name === name);
-  if (user.name == name) {
-    if (user.password == password) {
-      res.send("Login success");
-    } else {
-      res.send("Wrong Password");
-    }
-  } else {
-    res.send("Username Failed");
+  if (!user) {
+    return res.send("Username not found" );
   }
+
+  // Check password
+  if (user.password !== password) {
+    return res.send("Wrong password" );
+  }
+
+  res.send( "Login success");
 };
 
 const getProfile = (req, res) => {
-  res.send({ data: users });
+  const userId = parseInt(req.params.id);
+  const user = users.find((user) => user._id === userId);
+
+  if (!user) {
+    return res.send("User not found");
+  }
+
+  res.json({ data: user });
 };
 
 const updateUserProfile = (req, res) => {
