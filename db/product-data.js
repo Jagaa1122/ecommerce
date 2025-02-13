@@ -1,5 +1,6 @@
 const products = [
   {
+    id: 1,
     name: "apple",
     description: "apple is a friut",
     price: 10,
